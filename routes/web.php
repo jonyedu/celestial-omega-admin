@@ -14,11 +14,13 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('login');
-    //return view('welcome');
-});
+$prefijo = config('global.router_prefix');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get($prefijo . '/{any}', 'HomeController@index')->where('any', '.*');
+Route::get($prefijo, 'HomeController@index')->where('any', '.*');
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});

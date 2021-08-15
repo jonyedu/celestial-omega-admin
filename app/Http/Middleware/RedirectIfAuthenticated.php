@@ -17,8 +17,9 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        $prefijo = config('global.router_prefix');
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            return redirect($prefijo);
         }
 
         return $next($request);

@@ -1,11 +1,11 @@
+import seguridadStore from "./seguridad";
 import homeStore from "./home";
-//import authStore from "./auth";
 import Vuex from 'vuex';
 
 const stores = new Vuex.Store({
     modules: {
+        seguridad: seguridadStore,
         home: homeStore,
-        //auth: authStore,
     }
 });
 
