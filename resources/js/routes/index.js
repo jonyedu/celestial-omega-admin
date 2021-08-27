@@ -1,4 +1,4 @@
-import home from './home';
+import home from './modules/home';
 //import auth from './auth';
 
 const routes = [

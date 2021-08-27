@@ -1,7 +1,7 @@
 <template>
     <v-navigation-drawer
         id="default-drawer"
-        v-model="GET_DRAWER"
+        v-model="drawer"
         :dark="dark"
         :right="$vuetify.rtl"
         :src="drawerImage ? image : ''"
@@ -54,7 +54,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from "vuex";
+// Utilities
+import { get, sync } from "vuex-pathify";
 export default {
     name: "DefaultDrawer",
 
@@ -63,23 +64,9 @@ export default {
     },
 
     computed: {
-        ...mapGetters("home", {
-            drawer: "GET_DRAWER",
-            dark: "GET_DARK",
-            drawerImage: "GET_DARKIMAGE",
-            image: "GET_IMAGE",
-            mini: "GET_MINI",
-            gradient: "GET_GRADIENT",
-            items: "GET_ITEMS"
-        }),
-        GET_DRAWER: {
-            get() {
-                return this.drawer;
-            },
-            set(newName) {
-                return newName;
-            }
-        }
+        ...get("user", ["dark", "gradient", "image"]),
+        ...get("app", ["items", "version"]),
+        ...sync("app", ["drawer", "drawerImage", "mini"])
     }
 };
 </script>

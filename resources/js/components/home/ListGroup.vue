@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from "vuex";
+// Utilities
+import { get } from "vuex-pathify";
 export default {
     name: "DefaultListGroup",
 
@@ -57,31 +58,16 @@ export default {
     },
 
     computed: {
-        ...mapGetters("home", {
-            drawer: "GET_DRAWER",
-            dark: "GET_DARK",
-            drawerImage: "GET_DARKIMAGE",
-            image: "GET_IMAGE",
-            mini: "GET_MINI",
-            gradient: "GET_GRADIENT",
-            items: "GET_ITEMS"
-        }),
+        gradient: get("user/drawer@gradient"),
         group() {
             return this.genGroup(this.item.items);
+        },
+        title() {
+            const matches = this.item.title.match(/\b(\w)/g);
+
+            return matches.join("");
         }
     },
-
-    /* computed: {
-      gradient: get('user/drawer@gradient'),
-      group () {
-        return this.genGroup(this.item.items)
-      },
-      title () {
-        const matches = this.item.title.match(/\b(\w)/g)
-
-        return matches.join('')
-      },
-    }, */
 
     methods: {
         genGroup(items) {

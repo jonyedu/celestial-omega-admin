@@ -12,7 +12,7 @@
     >
         <v-app-bar-nav-icon
             class="hidden-md-and-up"
-            @click="SET_DRAWER(!GET_DRAWER)"
+            @click="drawer = !drawer"
         />
 
         <default-drawer-toggle class="hidden-sm-and-down" />
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from "vuex";
+// Utilities
+import { get, sync } from "vuex-pathify";
 export default {
     name: "Headers",
 
@@ -41,20 +42,11 @@ export default {
             name: "Dashboard"
         };
     },
-    mounted() {
-        console.log(this.$store.state.home.drawer);
-    },
+    mounted() {},
 
     computed: {
-        ...mapGetters("home", ["GET_DRAWER"]),
-        ...mapState("home", [
-            // map this.count to store.state.count
-            "drawer"
-        ])
-    },
+        ...sync("app", ["drawer", "mini"]),
 
-    methods: {
-        ...mapMutations("home", ["SET_DRAWER"])
     }
 };
 </script>

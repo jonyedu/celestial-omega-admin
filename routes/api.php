@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/get-config-empresa', function (Request $request) {
+/* Route::get('/get-config-empresa', function (Request $request) {
     return Empresa::select('url')->where('status', true)->orderBy('id', 'desc')->first();
 });
+ */

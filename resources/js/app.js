@@ -2,12 +2,15 @@ require('./bootstrap');
 
 import App from './layouts/App';
 import Vue from 'vue';
-import store from './stores/index';
+import store from './store';
 import VueRouter from 'vue-router';
 import routes from './routes/index';
 import vuetify from './plugins/vuetify';
+import { sync } from 'vuex-router-sync'
 import './plugins';
 import './components';
+
+
 
 store.dispatch("seguridad/getConfigEmpresa");
 
@@ -17,6 +20,8 @@ const router = new VueRouter({
     routes,
     mode: 'history',
 });
+
+sync(store, router)
 
 const app = new Vue({
     el: '#app',
