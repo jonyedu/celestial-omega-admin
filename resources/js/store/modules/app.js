@@ -13,34 +13,19 @@ const state = {
       to: '/',
     },
     {
-      title: 'User Profile',
-      icon: 'mdi-account',
-      to: '/components/profile/',
+      title: 'Galeria',
+      icon: 'mdi-image-album',
+      to: '/modulo/galeria/mostrar_galeria',
     },
     {
-      title: 'Regular Tables',
-      icon: 'mdi-clipboard-outline',
-      to: '/tables/regular/',
+      title: 'Eventos',
+      icon: 'mdi-calendar-blank',
+      to: '/modulo/evento/mostrar_evento',
     },
     {
-      title: 'Typography',
-      icon: 'mdi-format-font',
-      to: '/components/typography/',
-    },
-    {
-      title: 'Icons',
-      icon: 'mdi-chart-bubble',
-      to: '/components/icons/',
-    },
-    {
-      title: 'Google Maps',
-      icon: 'mdi-map-marker',
-      to: '/maps/google/',
-    },
-    {
-      title: 'Notifications',
-      icon: 'mdi-bell',
-      to: '/components/notifications/',
+      title: 'Programas',
+      icon: 'mdi-calendar-clock',
+      to: '/modulo/programa/mostrar_programa',
     },
   ],
 }

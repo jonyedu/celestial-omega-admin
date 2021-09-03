@@ -5,8 +5,16 @@ const home = [
     {
         path: prefijo,
         component: () => import("@/layouts/home/index"),
-        name: "home"
+        name: "home",
+        children: [
+            {
+                path:'modulo/galeria/mostrar_galeria',
+                component: () => import("@/modules/galeria/ui/index"),
+                name: "index_galeria"
+            },
+        ],
     },
+
 ];
 
 export default home;

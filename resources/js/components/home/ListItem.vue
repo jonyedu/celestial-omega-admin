@@ -3,7 +3,7 @@
     :href="item.href"
     :rel="item.href ? 'nofollow' : undefined"
     :target="item.href ? '_blank' : undefined"
-    :to="item.to"
+    :to="$store.get('seguridad@prefijo') + item.to"
     active-class="primary white--text"
     link
     class="py-1"

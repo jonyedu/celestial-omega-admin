@@ -1,9 +1,9 @@
 import home from './modules/home';
-//import auth from './auth';
+import galeria from '@/modules/galeria/router';
 
 const routes = [
     ...home,
-    //...auth,
+    ...galeria,
 ];
 
 export default routes;
