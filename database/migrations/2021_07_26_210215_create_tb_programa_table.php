@@ -23,14 +23,14 @@ class CreateTbProgramaTable extends Migration
                 $table->string('titulo', 30);
                 $table->string('sub_titulo', 100);
                 $table->unsignedInteger('flex')->default(6);
-                //$table->binary('src');
                 /* Datos para auditoria */
                 $table->string('usu_created');
                 $table->string('usu_update');
                 $table->timestamps();
-                $table->string('ip_address', 45)->nullable()->default('192.168.1.196');
+                $table->ipAddress('ip_visitor');
                 $table->boolean('status')->default(true);
             });
+            DB::statement("ALTER TABLE tb_programa ADD src LONGBLOB after flex");
         }
     }
 

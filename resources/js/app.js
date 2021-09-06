@@ -12,7 +12,7 @@ import './components';
 
 
 
-store.dispatch("seguridad/getConfigEmpresa");
+//store.dispatch("seguridad/getConfigEmpresa");
 
 Vue.use(VueRouter);
 

@@ -11,6 +11,9 @@
 |
 */
 
+use App\Http\Controllers\Evento\EventoController;
+use App\Http\Controllers\Galeria\GaleriaController;
+use App\Http\Controllers\Programa\ProgramaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +26,12 @@ Route::get($prefijo, 'HomeController@index')->where('any', '.*');
 
 Route::get('/', function () {
     return redirect()->route('login');
+});
+
+Route::group(['middleware' => ['auth:web'], 'verified'], function () {
+    Route::resources([
+        'galeria' => 'Galeria\GaleriaController',
+        'evento' => 'Evento\EventoController',
+        'programa' => 'Programa\ProgramaController',
+    ]);
 });

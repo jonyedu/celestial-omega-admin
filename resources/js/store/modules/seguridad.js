@@ -28,13 +28,13 @@ const seguridadStore = {
                     if (res.data.url != null) {
                         commit("SET_PREFIJO", res.data.url);
                     }else{
-                        commit("SET_PREFIJO", '/home');
+                        commit("SET_PREFIJO", '/Omega');
                     }
 
                 })
                 .catch(() => {
                     console.log("error");
-                    commit("SET_PREFIJO", '/home');
+                    commit("SET_PREFIJO", '/Omega');
                 });
         }
     },

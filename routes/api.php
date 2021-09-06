@@ -14,10 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/* Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::get('/get-config-empresa', function (Request $request) {
     return Empresa::select('url')->where('status', true)->orderBy('id', 'desc')->first();
-});
+}); */
+
+Route::get('galeria', 'Galeria\GaleriaController@index');
+Route::get('evento', 'Evento\EventoController@index');
+Route::get('programa', 'Programa\ProgramaController@index');
+

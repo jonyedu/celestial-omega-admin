@@ -34,7 +34,6 @@ export default {
   data: () => ({}),
   methods: {
     logout() {
-      alert("entra");
       let that = this;
       let url = "/logout";
       axios
