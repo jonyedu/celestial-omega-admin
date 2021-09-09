@@ -8,6 +8,9 @@ class Imagen extends Model
 {
     protected $table = 'tb_imagen';
     protected $primaryKey = 'imagen_id';
+    protected $casts = [
+        'status' => 'boolean',
+    ];
     protected $fillable = [
         'imagen_id',
         'galeria_id',

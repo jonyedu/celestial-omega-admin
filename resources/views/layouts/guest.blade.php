@@ -10,7 +10,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-
+    <!-- Icono de la Pestaña -->
+    <link rel="shortcut icon" href="{{ asset('images/logo_principal.png') }}">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">

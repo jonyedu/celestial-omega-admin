@@ -1,3 +1,5 @@
 export { default as app } from './app'
+export { default as sales } from './sales'
 export { default as user } from './user'
 export { default as seguridad } from './seguridad'
+export { default as general } from './general'

@@ -9,6 +9,9 @@ class Programa extends Model
 {
     protected $table = 'tb_programa';
     protected $primaryKey = 'programa_id';
+    protected $casts = [
+        'status' => 'boolean',
+    ];
     protected $fillable = [
         'programa_id', 
         'fecha', 

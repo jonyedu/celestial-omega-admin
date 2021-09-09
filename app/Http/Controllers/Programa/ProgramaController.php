@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Programa;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Imagen\Imagen;
 use App\Models\Programa\Programa;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ class ProgramaController extends Controller
                 'flex',
                 'src',
             )
-                ->with('imagenes:imagen_id,programa_id,src')
+                ->with('imagenes:imagen_id,programa_id,src,status')
                 ->where('status', true)
                 ->get();
             return response()->json(['programas' => $programas, 'count' => $programas->count()]);
@@ -57,7 +58,10 @@ class ProgramaController extends Controller
     {
         try {
             $user = Auth::user();
-            Programa::create([
+            $programa = Programa::create([
+                'fecha' => $request->fecha,
+                'hora_inicio' => $request->hora_inicio,
+                'hora_fin' => $request->hora_fin,
                 'titulo' => $request->titulo,
                 'sub_titulo' => $request->sub_titulo,
                 'flex' => $request->flex,
@@ -67,7 +71,20 @@ class ProgramaController extends Controller
                 'ip_visitor' => $_SERVER["REMOTE_ADDR"],
                 'status' => true,
             ]);
-            return response()->json(['msj' => 'Exito al guardar evento.']);
+            foreach ($request->imagenes as $key => $imagen) {
+                Imagen::create([
+                    'galeria_id' => 0,
+                    'programa_id' => 0,
+                    'programa_id' => $programa->programa_id,
+                    'tipo_proceso' => 1,
+                    'src' => $imagen['src'],
+                    'usu_created' => $user->id,
+                    'usu_update' => $user->id,
+                    'ip_visitor' => $_SERVER["REMOTE_ADDR"],
+                    'status' => true,
+                ]);
+            }
+            return response()->json(['msj' => 'Exito al guardar programa.']);
         } catch (Exception $e) {
             return response()->json(['msj' => 'ProgramaController=>store(): ' . $e->getMessage()], 500);
         }
@@ -79,11 +96,11 @@ class ProgramaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($evento_id)
+    public function show($programa_id)
     {
         try {
-            $evento = Programa::where('status', true)->where('evento_id', $evento_id)->first();
-            return response()->json(['evento' => $evento]);
+            $programa = Programa::where('status', true)->where('programa_id', $programa_id)->first();
+            return response()->json(['programa' => $programa]);
         } catch (Exception $e) {
             return response()->json(['msj' => 'ProgramaController=>show(): ' . $e->getMessage()], 500);
         }
@@ -106,11 +123,15 @@ class ProgramaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $evento_id)
+    public function update(Request $request, $programa_id)
     {
         try {
             $user = Auth::user();
-            Programa::where('evento_id', $evento_id)->where('status', true)->update([
+            Programa::where('programa_id', $programa_id)->where('status', true)->update([
+                'fecha' => $request->fecha,
+                'hora_inicio' => $request->hora_inicio,
+                'hora_fin' => $request->hora_fin,
+                'titulo' => $request->titulo,
                 'titulo' => $request->titulo,
                 'sub_titulo' => $request->sub_titulo,
                 'flex' => $request->flex,
@@ -118,7 +139,31 @@ class ProgramaController extends Controller
                 'usu_update' => $user->id,
                 'ip_visitor' => $_SERVER["REMOTE_ADDR"],
             ]);
-            return response()->json(['msj' => 'Exito al actualizar evento.']);
+            foreach ($request->imagenes as $key => $imagen) {
+                if (isset($imagen['delete'])) {
+                    if ($imagen['delete']) {
+                        Imagen::where('imagen_id', $imagen['imagen_id'])->delete();
+                    }
+                }
+                Imagen::updateOrCreate(
+                    [
+                        'imagen_id' => $imagen['imagen_id'],
+                        'status' => true
+                    ],
+                    [
+                        'galeria_id' => 0,
+                        'programa_id' => 0,
+                        'programa_id' => $programa_id,
+                        'tipo_proceso' => 3,
+                        'src' => $imagen['src'],
+                        'usu_created' => $user->id,
+                        'usu_update' => $user->id,
+                        'ip_visitor' => $_SERVER["REMOTE_ADDR"],
+                        'status' => true,
+                    ]
+                );
+            }
+            return response()->json(['msj' => 'Exito al actualizar programa.']);
         } catch (Exception $e) {
             return response()->json(['msj' => 'ProgramaController=>store(): ' . $e->getMessage()], 500);
         }
@@ -130,16 +175,13 @@ class ProgramaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($evento_id)
+    public function destroy($programa_id)
     {
         try {
             $user = Auth::user();
-            Programa::where('evento_id', $evento_id)->where('status', true)->update([
-                'usu_update' => $user->id,
-                'ip_visitor' => $_SERVER["REMOTE_ADDR"],
-                'status' => false
-            ]);
-            return response()->json(['msj' => 'Exito al eliminar evento.']);
+            Programa::where('programa_id', $programa_id)->where('status', true)->delete();
+            Imagen::where('programa_id', $programa_id)->delete();
+            return response()->json(['msj' => 'Exito al eliminar programa.']);
         } catch (Exception $e) {
             return response()->json(['msj' => 'ProgramaController=>store(): ' . $e->getMessage()], 500);
         }

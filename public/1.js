@@ -1,14 +1,17 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[1],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/galeria/ui/index.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modules/galeria/ui/index.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/dashboard/ui/index.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modules/dashboard/ui/index.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex_pathify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex-pathify */ "./node_modules/vuex-pathify/dist/vuex-pathify.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -69,323 +72,142 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+// Utilities
+
+
+var lineSmooth = vue__WEBPACK_IMPORTED_MODULE_1___default.a.chartist.Interpolation.cardinal({
+  tension: 0
+});
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "MantenimientoGaleria",
+  name: "DashboardView",
   data: function data() {
     return {
-      tituloRules: [function (v) {
-        return !!v || "Título es requerido";
-      }, function (v) {
-        return v && v.length <= 30 || "El título debe tener menos de 30 caracteres";
-      }],
-      subTituloRules: [function (v) {
-        return !!v || "Sub Título es requerido";
-      }, function (v) {
-        return v && v.length <= 100 || "El título debe tener menos de 30 caracteres";
-      }],
-      valid: true,
-      text_error: "",
-      show: false,
-      color: "",
-      model: null,
-      prueba: null,
-      switch1: true,
-      files: [],
-      dialog: false,
-      dialogDelete: false,
-      headers: [{
-        text: "Título",
-        align: "start",
-        sortable: false,
-        value: "titulo"
-      }, {
-        text: "Sub Título",
-        value: "sub_titulo"
-      }, {
-        text: "Flex",
-        value: "flex"
-      }, {
-        text: "Imagen",
-        value: "src"
-      }, {
-        text: "Opciones",
-        value: "actions",
-        sortable: false
-      }],
-      galerias: [],
-      editedIndex: -1,
-      editedItem: {
-        galeria_id: 0,
-        titulo: "",
-        sub_titulo: "",
-        flex: 6,
-        src: "",
-        imagenes: []
-      },
-      defaultItem: {
-        galeria_id: 0,
-        titulo: "",
-        sub_titulo: "",
-        flex: 6,
-        src: "",
-        imagenes: []
-      }
-    };
-  },
-  computed: {
-    formTitle: function formTitle() {
-      return this.editedIndex === -1 ? "Nuevo Item" : "Editar Item";
-    }
-  },
-  watch: {
-    dialog: function dialog(val) {
-      val || this.close();
-    },
-    dialogDelete: function dialogDelete(val) {
-      val || this.closeDelete();
-    }
-  },
-  created: function created() {
-    this.getGaleria();
-  },
-  methods: {
-    clearImagen: function clearImagen() {//this.editedItem.imagenes = [];
-    },
-    setImagenMain: function setImagenMain(imagen) {
-      console.log(imagen);
-      this.editedItem.src = imagen.src;
-    },
-    onFileSelected: function onFileSelected() {
-      //this.editedItem.imagenes = [];
-      var that = this;
-
-      if (this.files.length > 0) {
-        this.files.forEach(function callback(file, index) {
-          if (file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/jpg") {
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-
-            reader.onload = function (e) {
-              var object = {};
-              object.galeria_id = that.editedItem.galeria_id;
-              object.imagen_id = that.editedItem.imagen_id == 0 ? index : that.editedItem.imagen_id;
-              object.src = e.target.result;
-              that.editedItem.imagenes.push(object);
-            };
-          } else {
-            this.showNotificationProgress("Advertencia al cargar la imagen", "Solo imagenes de formato: .jpeg, .jpg, .png son permitidos!", "warning");
+      charts: [{
+        type: "Bar",
+        color: "primary",
+        title: "Galería",
+        subtitle: "Last Campaign Performance",
+        time: "updated 10 minutes ago",
+        data: {
+          labels: ["Ja", "Fe", "Ma", "Ap", "Mai", "Ju", "Jul", "Au", "Se", "Oc", "No", "De"],
+          series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
+        },
+        options: {
+          axisX: {
+            showGrid: false
+          },
+          low: 0,
+          high: 1000,
+          chartPadding: {
+            top: 0,
+            right: 5,
+            bottom: 0,
+            left: 0
           }
-        });
-      }
-    },
-    getGaleria: function getGaleria() {
-      var that = this;
-      var url = "/galeria";
-      axios.get(url).then(function (response) {
-        that.galerias = response.data.galerias;
-      })["catch"](function (error) {
-        console.error(error);
-      });
-    },
-    editItem: function editItem(item) {
-      this.editedIndex = this.galerias.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-    deleteItem: function deleteItem(item) {
-      this.editedIndex = this.galerias.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-    deleteItemConfirm: function deleteItemConfirm() {
-      var that = this;
-      var url = "/galeria/" + this.editedItem.galeria_id;
-      axios["delete"](url, this.editedItem).then(function () {
-        that.$refs.form.reset();
-        that.$refs.form.resetValidation();
-        that.text_error = "Se ha eliminado correctamente";
-        that.show = true;
-        that.color = "green";
-        that.getGaleria();
-        that.closeDelete();
-      })["catch"](function (error) {
-        console.error(error);
-      });
-    },
-    close: function close() {
-      var _this = this;
-
-      this.$refs.form.reset();
-      this.$refs.form.resetValidation();
-      this.dialog = false;
-      this.$nextTick(function () {
-        _this.editedItem = Object.assign({}, _this.defaultItem);
-        _this.editedIndex = -1;
-      });
-    },
-    closeDelete: function closeDelete() {
-      var _this2 = this;
-
-      this.$refs.form.reset();
-      this.$refs.form.resetValidation();
-      this.dialogDelete = false;
-      this.$nextTick(function () {
-        _this2.editedItem = Object.assign({}, _this2.defaultItem);
-        _this2.editedIndex = -1;
-      });
-    },
-    save: function save() {
-      if (this.$refs.form.validate()) {
-        var that = this;
-        var url = "";
-
-        if (this.editedIndex > -1) {
-          //modificar
-          url = "/galeria/" + this.editedItem.galeria_id;
-          axios.put(url, this.editedItem).then(function () {
-            that.$refs.form.reset();
-            that.$refs.form.resetValidation();
-            that.text_error = "Se ha modificado correctamente";
-            that.show = true;
-            that.color = "green";
-            that.getGaleria();
-            that.close();
-          })["catch"](function (error) {
-            console.error(error);
-          });
-        } else {
-          //guardar
-          url = "/galeria";
-          axios.post(url, this.editedItem).then(function () {
-            that.$refs.form.reset();
-            that.$refs.form.resetValidation();
-            that.text_error = "Se ha guardado correctamente";
-            that.show = true;
-            that.color = "green";
-            that.getGaleria();
-            that.close();
-          })["catch"](function (error) {
-            console.error(error);
-          });
-        }
-      }
-    }
+        },
+        responsiveOptions: [["screen and (max-width: 640px)", {
+          seriesBarDistance: 5,
+          axisX: {
+            labelInterpolationFnc: function labelInterpolationFnc(value) {
+              return value[0];
+            }
+          }
+        }]]
+      }, {
+        type: "Bar",
+        color: "primary",
+        title: "Eventos",
+        subtitle: "Last Campaign Performance",
+        time: "updated 10 minutes ago",
+        data: {
+          labels: ["Ja", "Fe", "Ma", "Ap", "Mai", "Ju", "Jul", "Au", "Se", "Oc", "No", "De"],
+          series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
+        },
+        options: {
+          axisX: {
+            showGrid: false
+          },
+          low: 0,
+          high: 1000,
+          chartPadding: {
+            top: 0,
+            right: 5,
+            bottom: 0,
+            left: 0
+          }
+        },
+        responsiveOptions: [["screen and (max-width: 640px)", {
+          seriesBarDistance: 5,
+          axisX: {
+            labelInterpolationFnc: function labelInterpolationFnc(value) {
+              return value[0];
+            }
+          }
+        }]]
+      }, {
+        type: "Bar",
+        color: "primary",
+        title: "Programas",
+        subtitle: "Last Campaign Performance",
+        time: "updated 10 minutes ago",
+        data: {
+          labels: ["Ja", "Fe", "Ma", "Ap", "Mai", "Ju", "Jul", "Au", "Se", "Oc", "No", "De"],
+          series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
+        },
+        options: {
+          axisX: {
+            showGrid: false
+          },
+          low: 0,
+          high: 1000,
+          chartPadding: {
+            top: 0,
+            right: 5,
+            bottom: 0,
+            left: 0
+          }
+        },
+        responsiveOptions: [["screen and (max-width: 640px)", {
+          seriesBarDistance: 5,
+          axisX: {
+            labelInterpolationFnc: function labelInterpolationFnc(value) {
+              return value[0];
+            }
+          }
+        }]]
+      }],
+      stats: [{
+        actionIcon: "mdi-alert",
+        actionText: "Get More Space...",
+        color: "#FD9A13",
+        icon: "mdi-sofa-single",
+        title: "Galería",
+        value: "120"
+      }, {
+        actionIcon: "mdi-tag",
+        actionText: "Tracked from Google Analytics",
+        color: "primary",
+        icon: "mdi-chart-bar",
+        title: "Eventos",
+        value: "130"
+      }, {
+        actionIcon: "mdi-calendar-range",
+        actionText: "Last 24 Hours",
+        color: "success",
+        icon: "mdi-store",
+        title: "Programa",
+        value: "150"
+      }]
+    };
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/galeria/ui/index.vue?vue&type=template&id=013e3cd5&":
-/*!****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modules/galeria/ui/index.vue?vue&type=template&id=013e3cd5& ***!
-  \****************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/dashboard/ui/index.vue?vue&type=template&id=a00f1b90&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modules/dashboard/ui/index.vue?vue&type=template&id=a00f1b90& ***!
+  \******************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -393,624 +215,171 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+function objectWithoutProperties(obj, exclude) {
+  var target = {}
+  for (var k in obj)
+    if (
+      Object.prototype.hasOwnProperty.call(obj, k) &&
+      exclude.indexOf(k) === -1
+    )
+      target[k] = obj[k]
+  return target
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-container",
+    { attrs: { id: "dashboard-view", fluid: "", tag: "section" } },
     [
-      _c("v-data-table", {
-        staticClass: "elevation-1",
-        attrs: {
-          headers: _vm.headers,
-          items: _vm.galerias,
-          "sort-by": "calories"
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "item.src",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                _c("v-img", {
-                  attrs: { "max-height": "50", "max-width": "140", src: item }
-                })
-              ]
-            }
-          },
-          {
-            key: "top",
-            fn: function() {
-              return [
-                _c(
-                  "v-toolbar",
-                  { attrs: { flat: "" } },
-                  [
-                    _c("v-toolbar-title", [_vm._v("Mantenimiento de Galería")]),
-                    _vm._v(" "),
-                    _c("v-divider", {
-                      staticClass: "mx-4",
-                      attrs: { inset: "", vertical: "" }
-                    }),
-                    _vm._v(" "),
-                    _c("v-spacer"),
-                    _vm._v(" "),
-                    _c(
-                      "v-dialog",
-                      {
-                        attrs: { persistent: "", "max-width": "500px" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "activator",
-                            fn: function(ref) {
-                              var on = ref.on
-                              var attrs = ref.attrs
-                              return [
-                                _c(
-                                  "v-btn",
-                                  _vm._g(
-                                    _vm._b(
-                                      {
-                                        staticClass: "mb-2",
-                                        attrs: { color: "primary", dark: "" }
-                                      },
-                                      "v-btn",
-                                      attrs,
-                                      false
-                                    ),
-                                    on
-                                  ),
-                                  [
-                                    _vm._v(
-                                      "\n              Nuevo Item\n            "
-                                    )
-                                  ]
-                                )
-                              ]
-                            }
-                          }
-                        ]),
-                        model: {
-                          value: _vm.dialog,
-                          callback: function($$v) {
-                            _vm.dialog = $$v
-                          },
-                          expression: "dialog"
-                        }
-                      },
-                      [
-                        _vm._v(" "),
-                        _c(
-                          "v-card",
+      _c(
+        "v-row",
+        [
+          _c(
+            "v-col",
+            { attrs: { cols: "12" } },
+            [
+              _c(
+                "v-row",
+                _vm._l(_vm.charts, function(chart, i) {
+                  return _c(
+                    "v-col",
+                    {
+                      key: "chart-" + i,
+                      attrs: { cols: "12", md: "6", lg: "4" }
+                    },
+                    [
+                      _c("material-chart-card", {
+                        attrs: {
+                          color: chart.color,
+                          data: chart.data,
+                          options: chart.options,
+                          "responsive-options": chart.responsiveOptions,
+                          title: chart.title,
+                          type: chart.type
+                        },
+                        scopedSlots: _vm._u(
                           [
-                            _c("v-card-title", [
-                              _c("span", { staticClass: "text-h5" }, [
-                                _vm._v(_vm._s(_vm.formTitle))
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "v-form",
-                              {
-                                ref: "form",
-                                attrs: { "lazy-validation": "" },
-                                model: {
-                                  value: _vm.valid,
-                                  callback: function($$v) {
-                                    _vm.valid = $$v
-                                  },
-                                  expression: "valid"
-                                }
-                              },
-                              [
-                                _c(
-                                  "v-card-text",
-                                  [
-                                    _c(
-                                      "v-container",
-                                      [
-                                        _c(
-                                          "v-row",
-                                          [
-                                            _c(
-                                              "v-col",
-                                              {
-                                                attrs: {
-                                                  cols: "12",
-                                                  sm: "6",
-                                                  md: "5"
-                                                }
-                                              },
-                                              [
-                                                _c("v-text-field", {
-                                                  attrs: {
-                                                    required: "",
-                                                    counter: 30,
-                                                    rules: _vm.tituloRules,
-                                                    label: "Título",
-                                                    hint:
-                                                      "Es obligatorio tener el título de la galería."
-                                                  },
-                                                  model: {
-                                                    value:
-                                                      _vm.editedItem.titulo,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        _vm.editedItem,
-                                                        "titulo",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression:
-                                                      "editedItem.titulo"
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-col",
-                                              {
-                                                attrs: {
-                                                  cols: "12",
-                                                  sm: "6",
-                                                  md: "7"
-                                                }
-                                              },
-                                              [
-                                                _c("v-text-field", {
-                                                  attrs: {
-                                                    counter: 100,
-                                                    rules: _vm.subTituloRules,
-                                                    label: "Sub Título",
-                                                    hint:
-                                                      "Es obligatorio llevar sub título."
-                                                  },
-                                                  model: {
-                                                    value:
-                                                      _vm.editedItem.sub_titulo,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        _vm.editedItem,
-                                                        "sub_titulo",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression:
-                                                      "editedItem.sub_titulo"
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-col",
-                                              {
-                                                attrs: {
-                                                  cols: "6",
-                                                  sm: "6",
-                                                  md: "8"
-                                                }
-                                              },
-                                              [
-                                                _c("v-select", {
-                                                  attrs: {
-                                                    items: [4, 5, 6, 12],
-                                                    label: "Tamaño",
-                                                    required: ""
-                                                  },
-                                                  model: {
-                                                    value: _vm.editedItem.flex,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        _vm.editedItem,
-                                                        "flex",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression:
-                                                      "editedItem.flex"
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-col",
-                                              {
-                                                attrs: {
-                                                  cols: "12",
-                                                  sm: "12",
-                                                  md: "12"
-                                                }
-                                              },
-                                              [
-                                                _c("v-file-input", {
-                                                  attrs: {
-                                                    "show-size": "",
-                                                    accept:
-                                                      "image/png, image/jpeg, image/bmp",
-                                                    placeholder:
-                                                      "Clic para seleccionar la galería",
-                                                    "prepend-icon":
-                                                      "mdi-camera",
-                                                    label: "Galería",
-                                                    multiple: "",
-                                                    counter: ""
-                                                  },
-                                                  on: {
-                                                    change: _vm.onFileSelected,
-                                                    "click:clear":
-                                                      _vm.clearImagen
-                                                  },
-                                                  scopedSlots: _vm._u([
-                                                    {
-                                                      key: "selection",
-                                                      fn: function(ref) {
-                                                        var text = ref.text
-                                                        return [
-                                                          _c(
-                                                            "v-chip",
-                                                            {
-                                                              attrs: {
-                                                                small: "",
-                                                                label: "",
-                                                                color: "primary"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "\n                            " +
-                                                                  _vm._s(text) +
-                                                                  "\n                          "
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      }
-                                                    }
-                                                  ]),
-                                                  model: {
-                                                    value: _vm.files,
-                                                    callback: function($$v) {
-                                                      _vm.files = $$v
-                                                    },
-                                                    expression: "files"
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            [
-                                              _c(
-                                                "v-sheet",
-                                                {
-                                                  staticClass: "mx-auto",
-                                                  attrs: { "max-width": "450" }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-slide-group",
-                                                    {
-                                                      attrs: {
-                                                        "show-arrows": ""
-                                                      }
-                                                    },
-                                                    _vm._l(
-                                                      _vm.editedItem.imagenes,
-                                                      function(imagen) {
-                                                        return _c(
-                                                          "v-slide-item",
-                                                          {
-                                                            key:
-                                                              imagen.imagen_id,
-                                                            scopedSlots: _vm._u(
-                                                              [
-                                                                {
-                                                                  key:
-                                                                    "default",
-                                                                  fn: function(
-                                                                    ref
-                                                                  ) {
-                                                                    var active =
-                                                                      ref.active
-                                                                    var toggle =
-                                                                      ref.toggle
-                                                                    return [
-                                                                      _c(
-                                                                        "v-img",
-                                                                        {
-                                                                          attrs: {
-                                                                            "max-height":
-                                                                              "50",
-                                                                            "max-width":
-                                                                              "140",
-                                                                            src:
-                                                                              imagen.src
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _c(
-                                                                            "v-btn",
-                                                                            {
-                                                                              staticClass:
-                                                                                "mx-7 mt-7",
-                                                                              staticStyle: {
-                                                                                "font-size":
-                                                                                  "6pt",
-                                                                                height:
-                                                                                  "20px"
-                                                                              },
-                                                                              attrs: {
-                                                                                "input-value": active,
-                                                                                "active-class":
-                                                                                  "purple white--text",
-                                                                                depressed:
-                                                                                  "",
-                                                                                rounded:
-                                                                                  ""
-                                                                              },
-                                                                              on: {
-                                                                                click: [
-                                                                                  function(
-                                                                                    $event
-                                                                                  ) {
-                                                                                    return _vm.setImagenMain(
-                                                                                      imagen
-                                                                                    )
-                                                                                  },
-                                                                                  toggle
-                                                                                ]
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _vm._v(
-                                                                                "\n                                Principal\n                              "
-                                                                              )
-                                                                            ]
-                                                                          )
-                                                                        ],
-                                                                        1
-                                                                      )
-                                                                    ]
-                                                                  }
-                                                                }
-                                                              ],
-                                                              null,
-                                                              true
-                                                            )
-                                                          }
-                                                        )
-                                                      }
-                                                    ),
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ]
-                                          ],
-                                          2
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-actions",
-                              [
-                                _c("v-spacer"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: { color: "blue darken-1", text: "" },
-                                    on: { click: _vm.close }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                Cancel\n              "
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: { color: "blue darken-1", text: "" },
-                                    on: { click: _vm.save }
-                                  },
-                                  [_vm._v(" Save ")]
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-dialog",
-                      {
-                        attrs: { "max-width": "500px" },
-                        model: {
-                          value: _vm.dialogDelete,
-                          callback: function($$v) {
-                            _vm.dialogDelete = $$v
-                          },
-                          expression: "dialogDelete"
-                        }
-                      },
-                      [
-                        _c(
-                          "v-card",
-                          [
-                            _c("v-card-title", { staticClass: "text-h5" }, [
-                              _vm._v(
-                                "¿Estás segura de que quieres eliminar esta\n              galería?"
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-actions",
-                              [
-                                _c("v-spacer"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: { color: "blue darken-1", text: "" },
-                                    on: { click: _vm.closeDelete }
-                                  },
-                                  [_vm._v("Cancel")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: { color: "blue darken-1", text: "" },
-                                    on: { click: _vm.deleteItemConfirm }
-                                  },
-                                  [_vm._v("OK")]
-                                ),
-                                _vm._v(" "),
-                                _c("v-spacer")
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ]
-            },
-            proxy: true
-          },
-          {
-            key: "item.actions",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                _c(
-                  "v-icon",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { small: "" },
-                    on: {
-                      click: function($event) {
-                        return _vm.editItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v(" mdi-pencil ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-icon",
-                  {
-                    attrs: { small: "" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v(" mdi-delete ")]
-                )
-              ]
-            }
-          },
-          {
-            key: "no-data",
-            fn: function() {
-              return [
-                _c(
-                  "v-btn",
-                  {
-                    attrs: { color: "primary" },
-                    on: { click: _vm.getGaleria }
-                  },
-                  [_vm._v(" Reset ")]
-                )
-              ]
-            },
-            proxy: true
-          }
-        ])
-      }),
-      _vm._v(" "),
-      [
-        _c(
-          "div",
-          { staticClass: "text-center ma-2" },
-          [
-            _c(
-              "v-snackbar",
-              {
-                attrs: {
-                  color: _vm.color,
-                  absolute: "",
-                  right: "",
-                  bottom: ""
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "action",
-                    fn: function(ref) {
-                      var attrs = ref.attrs
-                      return [
-                        _c(
-                          "v-btn",
-                          _vm._b(
                             {
-                              attrs: { color: "pink", text: "" },
-                              on: { click: _vm.show }
+                              key: "subtitle",
+                              fn: function() {
+                                return [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "font-weight-light text--secondary"
+                                    },
+                                    [
+                                      _c("div", {
+                                        domProps: {
+                                          innerHTML: _vm._s(chart.subtitle)
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              },
+                              proxy: true
                             },
-                            "v-btn",
-                            attrs,
-                            false
-                          ),
-                          [_vm._v("\n            Close\n          ")]
+                            {
+                              key: "actions",
+                              fn: function() {
+                                return [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "mr-1",
+                                      attrs: { small: "" }
+                                    },
+                                    [_vm._v(" mdi-clock-outline ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", {
+                                    staticClass:
+                                      "text-caption grey--text font-weight-light",
+                                    domProps: {
+                                      textContent: _vm._s(chart.time)
+                                    }
+                                  })
+                                ]
+                              },
+                              proxy: true
+                            }
+                          ],
+                          null,
+                          true
                         )
-                      ]
-                    }
-                  }
-                ]),
-                model: {
-                  value: _vm.show,
-                  callback: function($$v) {
-                    _vm.show = $$v
-                  },
-                  expression: "show"
-                }
-              },
-              [_vm._v("\n        " + _vm._s(_vm.text_error) + "\n        ")]
+                      })
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.stats, function(ref, i) {
+            var actionIcon = ref.actionIcon
+            var actionText = ref.actionText
+            var rest = objectWithoutProperties(ref, [
+              "actionIcon",
+              "actionText"
+            ])
+            var attrs = rest
+            return _c(
+              "v-col",
+              { key: i, attrs: { cols: "12", md: "6", lg: "4" } },
+              [
+                _c(
+                  "material-stat-card",
+                  _vm._b(
+                    {
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "actions",
+                            fn: function() {
+                              return [
+                                _c("v-icon", {
+                                  staticClass: "mr-2",
+                                  attrs: { small: "" },
+                                  domProps: { textContent: _vm._s(actionIcon) }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "text-truncate" }, [
+                                  _vm._v(
+                                    "\n            " +
+                                      _vm._s(actionText) +
+                                      "\n          "
+                                  )
+                                ])
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    },
+                    "material-stat-card",
+                    attrs,
+                    false
+                  )
+                )
+              ],
+              1
             )
-          ],
-          1
-        )
-      ]
+          })
+        ],
+        2
+      )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []
@@ -1020,17 +389,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/modules/galeria/ui/index.vue":
-/*!***************************************************!*\
-  !*** ./resources/js/modules/galeria/ui/index.vue ***!
-  \***************************************************/
+/***/ "./resources/js/modules/dashboard/ui/index.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/modules/dashboard/ui/index.vue ***!
+  \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _index_vue_vue_type_template_id_013e3cd5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=013e3cd5& */ "./resources/js/modules/galeria/ui/index.vue?vue&type=template&id=013e3cd5&");
-/* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/modules/galeria/ui/index.vue?vue&type=script&lang=js&");
+/* harmony import */ var _index_vue_vue_type_template_id_a00f1b90___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=a00f1b90& */ "./resources/js/modules/dashboard/ui/index.vue?vue&type=template&id=a00f1b90&");
+/* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/modules/dashboard/ui/index.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -1041,8 +410,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _index_vue_vue_type_template_id_013e3cd5___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _index_vue_vue_type_template_id_013e3cd5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _index_vue_vue_type_template_id_a00f1b90___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _index_vue_vue_type_template_id_a00f1b90___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -1052,38 +421,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/modules/galeria/ui/index.vue"
+component.options.__file = "resources/js/modules/dashboard/ui/index.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/modules/galeria/ui/index.vue?vue&type=script&lang=js&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/modules/galeria/ui/index.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************/
+/***/ "./resources/js/modules/dashboard/ui/index.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/modules/dashboard/ui/index.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/galeria/ui/index.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/dashboard/ui/index.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/modules/galeria/ui/index.vue?vue&type=template&id=013e3cd5&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/modules/galeria/ui/index.vue?vue&type=template&id=013e3cd5& ***!
-  \**********************************************************************************/
+/***/ "./resources/js/modules/dashboard/ui/index.vue?vue&type=template&id=a00f1b90&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/modules/dashboard/ui/index.vue?vue&type=template&id=a00f1b90& ***!
+  \************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_013e3cd5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=013e3cd5& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/galeria/ui/index.vue?vue&type=template&id=013e3cd5&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_013e3cd5___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_a00f1b90___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=a00f1b90& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/dashboard/ui/index.vue?vue&type=template&id=a00f1b90&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_a00f1b90___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_013e3cd5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_a00f1b90___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

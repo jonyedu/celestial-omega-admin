@@ -1,5 +1,18 @@
 <template>
   <div>
+    <template>
+      <div>
+        <v-alert
+          elevation="2"
+          dismissible
+          transition="scale-transition"
+          v-model="show"
+          type="success"
+        >
+          {{ text_error }}
+        </v-alert>
+      </div>
+    </template>
     <v-data-table
       :headers="headers"
       :items="galerias"
@@ -55,9 +68,6 @@
                           v-model="editedItem.flex"
                         ></v-select>
                       </v-col>
-                      <!-- <v-col cols="6" sm="6" md="4">
-                        <v-switch v-model="switch1" label="Estado"></v-switch>
-                      </v-col> -->
                       <v-col cols="12" sm="12" md="12">
                         <v-file-input
                           v-model="files"
@@ -82,28 +92,38 @@
                         <v-sheet class="mx-auto" max-width="450">
                           <v-slide-group show-arrows>
                             <v-slide-item
-                              v-for="imagen in editedItem.imagenes"
-                              :key="imagen.imagen_id"
+                              v-for="(imagen, index) in editedItem.imagenes"
+                              :key="index"
                               v-slot="{ active, toggle }"
                             >
-                              <v-img
-                                max-height="50"
-                                max-width="140"
-                                :src="imagen.src"
-                              >
-                                <v-btn
-                                  style="font-size: 6pt; height: 20px"
-                                  class="mx-7 mt-7"
-                                  :input-value="active"
-                                  active-class="purple white--text"
-                                  depressed
-                                  rounded
-                                  v-on:click="setImagenMain(imagen)"
-                                  @click="toggle"
+                              <template v-if="imagen.status">
+                                <v-img
+                                  max-height="50"
+                                  max-width="140"
+                                  :src="imagen.src"
                                 >
-                                  Principal
-                                </v-btn></v-img
-                              >
+                                  <v-icon
+                                    color="blue"
+                                    active-class="purple white--text"
+                                    class="ml-5 mt-9"
+                                    :input-value="active"
+                                    small
+                                    v-on:click="setImagenMain(imagen)"
+                                    @click="toggle"
+                                  >
+                                    mdi-key
+                                  </v-icon>
+                                  <v-icon
+                                    color="red"
+                                    class="ml-16 mt-9"
+                                    :input-value="active"
+                                    small
+                                    @click="deleteImagenes(index)"
+                                  >
+                                    mdi-delete
+                                  </v-icon>
+                                </v-img>
+                              </template>
                             </v-slide-item>
                           </v-slide-group>
                         </v-sheet>
@@ -149,21 +169,7 @@
         <v-btn color="primary" @click="getGaleria"> Reset </v-btn>
       </template>
     </v-data-table>
-    <template>
-      <div class="text-center ma-2">
-        <v-snackbar :color="color" v-model="show" absolute right bottom>
-          {{ text_error }}
-          <template v-slot:action="{ attrs }">
-            <v-btn color="pink" text v-bind="attrs" @click="show">
-              Close
-            </v-btn>
-          </template>
-        </v-snackbar>
-      </div>
-    </template>
   </div>
-</template>
-  </v-data-table>
 </template>
 <script>
 export default {
@@ -190,18 +196,14 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      {
-        text: "Título",
-        align: "start",
-        sortable: false,
-        value: "titulo",
-      },
+      { text: "Título", value: "titulo", },
       { text: "Sub Título", value: "sub_titulo" },
       { text: "Flex", value: "flex" },
       { text: "Imagen", value: "src" },
       { text: "Opciones", value: "actions", sortable: false },
     ],
     galerias: [],
+    customers: [],
     editedIndex: -1,
     editedItem: {
       galeria_id: 0,
@@ -223,7 +225,23 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Nuevo Item" : "Editar Item";
+      //return this.editedIndex === -1 ? "Nuevo Item" : "Editar Item";
+    },
+    totalItems() {
+      //return this.$store.getters.totalItems;
+    },
+    rowsPerPageItems() {
+      console.log(this.$store);
+      //return this.$store.getters.general.rowsPerPageItems;
+    },
+    pagination: {
+      get: function () {
+        return this.$store.getters.pagination;
+      },
+      set: function (value) {
+        console.log(value);
+        this.$store.dispatch("general/getCustomers", value);
+      },
     },
   },
 
@@ -234,6 +252,26 @@ export default {
     dialogDelete(val) {
       val || this.closeDelete();
     },
+    pagination: {
+      handler() {
+        this.loading = true;
+        this.$store
+          .dispatch("general/getCustomers", this.page)
+          .then((result) => {
+            this.loading = false;
+          });
+      },
+      update() {
+        console.log("update");
+        this.loading = true;
+        this.$store
+          .dispatch("general/getCustomers", this.page)
+          .then((result) => {
+            this.loading = false;
+          });
+      },
+      deep: true,
+    },
   },
 
   created() {
@@ -241,11 +279,16 @@ export default {
   },
 
   methods: {
+    deleteImagenes(index) {
+      this.editedItem.imagenes[index].delete = true;
+      this.editedItem.imagenes[index].status = false;
+      console.log(this.editedItem.imagenes);
+    },
     clearImagen() {
       //this.editedItem.imagenes = [];
     },
     setImagenMain(imagen) {
-      console.log(imagen);
+      //console.log(imagen);
       this.editedItem.src = imagen.src;
     },
     onFileSelected() {
@@ -263,11 +306,9 @@ export default {
             reader.onload = (e) => {
               let object = {};
               object.galeria_id = that.editedItem.galeria_id;
-              object.imagen_id =
-                that.editedItem.imagen_id == 0
-                  ? index
-                  : that.editedItem.imagen_id;
+              object.imagen_id = index;
               object.src = e.target.result;
+              object.status = true;
               that.editedItem.imagenes.push(object);
             };
           } else {

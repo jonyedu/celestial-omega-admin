@@ -17,6 +17,7 @@ const state = {
     'rgba(244, 67, 54, .8), rgba(244, 67, 54, .8)',
   ],
   images: [
+    'https://thumbs.dreamstime.com/b/imagen-vertical-de-un-camino-con-las-magn%C3%ADficas-monta%C3%B1as-bajo-el-cielo-azul-capturado-en-california-163571053.jpg'
     // 'https://demos.creative-tim.com/material-dashboard-pro/assets/img/sidebar-1.jpg',
     // 'https://demos.creative-tim.com/material-dashboard-pro/assets/img/sidebar-2.jpg',
     // 'https://demos.creative-tim.com/material-dashboard-pro/assets/img/sidebar-3.jpg',

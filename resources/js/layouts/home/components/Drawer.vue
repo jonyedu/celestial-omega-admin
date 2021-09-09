@@ -38,7 +38,7 @@ export default {
 
     computed: {
         ...get("user", ["dark", "gradient", "image"]),
-        ...get("app", ["items", "version"]),
+        ...get("app", ["items"]),
         ...sync("app", ["drawer", "drawerImage", "mini"])
     }
 };

@@ -9,6 +9,9 @@ class Galeria extends Model
 {
     protected $table = 'tb_galeria';
     protected $primaryKey = 'galeria_id';
+    protected $casts = [
+        'status' => 'boolean',
+    ];
     protected $fillable = [
         'galeria_id',
         'titulo',

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Evento extends Model
 {
     protected $table = 'tb_evento';
+    protected $primaryKey = 'evento_id';
+    protected $casts = [
+        'status' => 'boolean',
+    ];
     protected $fillable = [
         'evento_id',
         'fecha',

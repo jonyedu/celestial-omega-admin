@@ -27,7 +27,7 @@ class GaleriaController extends Controller
                 'flex',
                 'src',
             )
-                ->with('imagenes:imagen_id,galeria_id,src')
+                ->with('imagenes:imagen_id,galeria_id,src,status')
                 ->where('status', true)
                 ->get();
             return response()->json(['galerias' => $galerias, 'count' => $galerias->count()]);
@@ -35,6 +35,26 @@ class GaleriaController extends Controller
             return response()->json(['msj' => 'GaleriaController=>index(): ' . $e->getMessage()], 500);
         }
     }
+    public function getGaleriaPaginacion(Request $request)
+    {
+        try {
+            $rowsPerPage = ($request->rowsPerPage);
+            $galerias = Galeria::select(
+                'galeria_id',
+                'titulo',
+                'sub_titulo',
+                'flex',
+                'src',
+            )
+                ->with('imagenes:imagen_id,galeria_id,src,status')
+                ->where('status', true)
+                ->paginate($rowsPerPage);
+            return response()->json(['galerias' => $galerias, 'count' => $galerias->count()]);
+        } catch (Exception $e) {
+            return response()->json(['msj' => 'GaleriaController=>index(): ' . $e->getMessage()], 500);
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -130,21 +150,29 @@ class GaleriaController extends Controller
                 'usu_update' => $user->id,
                 'ip_visitor' => $_SERVER["REMOTE_ADDR"],
             ]);
-            //return response()->json(['galeria' => $galeria],500);
-            //aca elimino todas
-            Imagen::where('galeria_id', $galeria_id)->where('status', true)->delete();
             foreach ($request->imagenes as $key => $imagen) {
-                Imagen::create([
-                    'galeria_id' =>$galeria_id,
-                    'evento_id' => 0,
-                    'programa_id' => 0,
-                    'tipo_proceso' => 1,
-                    'src' => $imagen['src'],
-                    'usu_created' => $user->id,
-                    'usu_update' => $user->id,
-                    'ip_visitor' => $_SERVER["REMOTE_ADDR"],
-                    'status' => true,
-                ]);
+                if (isset($imagen['delete'])) {
+                    if ($imagen['delete']) {
+                        Imagen::where('imagen_id', $imagen['imagen_id'])->delete();
+                    }
+                }
+                Imagen::updateOrCreate(
+                    [
+                        'imagen_id' => $imagen['imagen_id'],
+                        'status' => true
+                    ],
+                    [
+                        'galeria_id' => $galeria_id,
+                        'evento_id' => 0,
+                        'programa_id' => 0,
+                        'tipo_proceso' => 1,
+                        'src' => $imagen['src'],
+                        'usu_created' => $user->id,
+                        'usu_update' => $user->id,
+                        'ip_visitor' => $_SERVER["REMOTE_ADDR"],
+                        'status' => true,
+                    ]
+                );
             }
             return response()->json(['msj' => 'Exito al actualizar galeria.']);
         } catch (Exception $e) {
@@ -161,12 +189,8 @@ class GaleriaController extends Controller
     public function destroy($galeria_id)
     {
         try {
-            $user = Auth::user();
-            Galeria::where('galeria_id', $galeria_id)->where('status', true)->update([
-                'usu_update' => $user->id,
-                'ip_visitor' => $_SERVER["REMOTE_ADDR"],
-                'status' => false
-            ]);
+            Galeria::where('galeria_id', $galeria_id)->where('status', true)->delete();
+            Imagen::where('galeria_id', $galeria_id)->delete();
             return response()->json(['msj' => 'Exito al eliminar galeria.']);
         } catch (Exception $e) {
             return response()->json(['msj' => 'GaleriaController=>store(): ' . $e->getMessage()], 500);

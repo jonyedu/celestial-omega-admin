@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Evento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Evento\Evento;
+use App\Models\Imagen\Imagen;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +28,7 @@ class EventoController extends Controller
                 'flex',
                 'src',
             )
-                ->with('imagenes:imagen_id,evento_id,src')
+                ->with('imagenes:imagen_id,evento_id,src,status')
                 ->where('status', true)
                 ->get();
             return response()->json(['eventos' => $eventos, 'count' => $eventos->count()]);
@@ -56,7 +57,9 @@ class EventoController extends Controller
     {
         try {
             $user = Auth::user();
-            Evento::create([
+            $evento = Evento::create([
+                'fecha' => $request->fecha,
+                'hora' => $request->hora,
                 'titulo' => $request->titulo,
                 'sub_titulo' => $request->sub_titulo,
                 'flex' => $request->flex,
@@ -66,6 +69,19 @@ class EventoController extends Controller
                 'ip_visitor' => $_SERVER["REMOTE_ADDR"],
                 'status' => true,
             ]);
+            foreach ($request->imagenes as $key => $imagen) {
+                Imagen::create([
+                    'galeria_id' => 0,
+                    'evento_id' => $evento->evento_id,
+                    'programa_id' => 0,
+                    'tipo_proceso' => 2,
+                    'src' => $imagen['src'],
+                    'usu_created' => $user->id,
+                    'usu_update' => $user->id,
+                    'ip_visitor' => $_SERVER["REMOTE_ADDR"],
+                    'status' => true,
+                ]);
+            }
             return response()->json(['msj' => 'Exito al guardar evento.']);
         } catch (Exception $e) {
             return response()->json(['msj' => 'EventoController=>store(): ' . $e->getMessage()], 500);
@@ -110,6 +126,8 @@ class EventoController extends Controller
         try {
             $user = Auth::user();
             Evento::where('evento_id', $evento_id)->where('status', true)->update([
+                'fecha' => $request->fecha,
+                'hora' => $request->hora,
                 'titulo' => $request->titulo,
                 'sub_titulo' => $request->sub_titulo,
                 'flex' => $request->flex,
@@ -117,6 +135,30 @@ class EventoController extends Controller
                 'usu_update' => $user->id,
                 'ip_visitor' => $_SERVER["REMOTE_ADDR"],
             ]);
+            foreach ($request->imagenes as $key => $imagen) {
+                if (isset($imagen['delete'])) {
+                    if ($imagen['delete']) {
+                        Imagen::where('imagen_id', $imagen['imagen_id'])->delete();
+                    }
+                }
+                Imagen::updateOrCreate(
+                    [
+                        'imagen_id' => $imagen['imagen_id'],
+                        'status' => true
+                    ],
+                    [
+                        'galeria_id' => 0,
+                        'evento_id' => $evento_id,
+                        'programa_id' => 0,
+                        'tipo_proceso' => 2,
+                        'src' => $imagen['src'],
+                        'usu_created' => $user->id,
+                        'usu_update' => $user->id,
+                        'ip_visitor' => $_SERVER["REMOTE_ADDR"],
+                        'status' => true,
+                    ]
+                );
+            }
             return response()->json(['msj' => 'Exito al actualizar evento.']);
         } catch (Exception $e) {
             return response()->json(['msj' => 'EventoController=>store(): ' . $e->getMessage()], 500);
@@ -132,12 +174,8 @@ class EventoController extends Controller
     public function destroy($evento_id)
     {
         try {
-            $user = Auth::user();
-            Evento::where('evento_id', $evento_id)->where('status', true)->update([
-                'usu_update' => $user->id,
-                'ip_visitor' => $_SERVER["REMOTE_ADDR"],
-                'status' => false
-            ]);
+            Evento::where('evento_id', $evento_id)->where('status', true)->delete();
+            Imagen::where('galeria_id', $evento_id)->delete();
             return response()->json(['msj' => 'Exito al eliminar evento.']);
         } catch (Exception $e) {
             return response()->json(['msj' => 'EventoController=>store(): ' . $e->getMessage()], 500);
