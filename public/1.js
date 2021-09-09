@@ -71,7 +71,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 // Utilities
 
 
@@ -82,123 +81,24 @@ var lineSmooth = vue__WEBPACK_IMPORTED_MODULE_1___default.a.chartist.Interpolati
   name: "DashboardView",
   data: function data() {
     return {
-      charts: [{
-        type: "Bar",
-        color: "primary",
-        title: "Galería",
-        subtitle: "Last Campaign Performance",
-        time: "updated 10 minutes ago",
-        data: {
-          labels: ["Ja", "Fe", "Ma", "Ap", "Mai", "Ju", "Jul", "Au", "Se", "Oc", "No", "De"],
-          series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
-        },
-        options: {
-          axisX: {
-            showGrid: false
-          },
-          low: 0,
-          high: 1000,
-          chartPadding: {
-            top: 0,
-            right: 5,
-            bottom: 0,
-            left: 0
-          }
-        },
-        responsiveOptions: [["screen and (max-width: 640px)", {
-          seriesBarDistance: 5,
-          axisX: {
-            labelInterpolationFnc: function labelInterpolationFnc(value) {
-              return value[0];
-            }
-          }
-        }]]
-      }, {
-        type: "Bar",
-        color: "primary",
-        title: "Eventos",
-        subtitle: "Last Campaign Performance",
-        time: "updated 10 minutes ago",
-        data: {
-          labels: ["Ja", "Fe", "Ma", "Ap", "Mai", "Ju", "Jul", "Au", "Se", "Oc", "No", "De"],
-          series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
-        },
-        options: {
-          axisX: {
-            showGrid: false
-          },
-          low: 0,
-          high: 1000,
-          chartPadding: {
-            top: 0,
-            right: 5,
-            bottom: 0,
-            left: 0
-          }
-        },
-        responsiveOptions: [["screen and (max-width: 640px)", {
-          seriesBarDistance: 5,
-          axisX: {
-            labelInterpolationFnc: function labelInterpolationFnc(value) {
-              return value[0];
-            }
-          }
-        }]]
-      }, {
-        type: "Bar",
-        color: "primary",
-        title: "Programas",
-        subtitle: "Last Campaign Performance",
-        time: "updated 10 minutes ago",
-        data: {
-          labels: ["Ja", "Fe", "Ma", "Ap", "Mai", "Ju", "Jul", "Au", "Se", "Oc", "No", "De"],
-          series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
-        },
-        options: {
-          axisX: {
-            showGrid: false
-          },
-          low: 0,
-          high: 1000,
-          chartPadding: {
-            top: 0,
-            right: 5,
-            bottom: 0,
-            left: 0
-          }
-        },
-        responsiveOptions: [["screen and (max-width: 640px)", {
-          seriesBarDistance: 5,
-          axisX: {
-            labelInterpolationFnc: function labelInterpolationFnc(value) {
-              return value[0];
-            }
-          }
-        }]]
-      }],
-      stats: [{
-        actionIcon: "mdi-alert",
-        actionText: "Get More Space...",
-        color: "#FD9A13",
-        icon: "mdi-sofa-single",
-        title: "Galería",
-        value: "120"
-      }, {
-        actionIcon: "mdi-tag",
-        actionText: "Tracked from Google Analytics",
-        color: "primary",
-        icon: "mdi-chart-bar",
-        title: "Eventos",
-        value: "130"
-      }, {
-        actionIcon: "mdi-calendar-range",
-        actionText: "Last 24 Hours",
-        color: "success",
-        icon: "mdi-store",
-        title: "Programa",
-        value: "150"
-      }]
+      charts: [],
+      stats: []
     };
+  },
+  created: function created() {
+    this.getDashboard();
+  },
+  methods: {
+    getDashboard: function getDashboard() {
+      var that = this;
+      var url = "/dashboard/get-dashboard";
+      axios.get(url).then(function (response) {
+        that.stats = response.data.stats;
+        that.charts = response.data.charts;
+      })["catch"](function (error) {
+        console.error(error);
+      });
+    }
   }
 });
 

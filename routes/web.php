@@ -29,7 +29,9 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth:web'], 'verified'], function () {
-    Route::get('/galeria/get-galeria-paginacion', 'Galeria\GaleriaController@getGaleriaPaginacion')->where('any', '.*');
+    Route::get('/galeria/get-galeria-paginacion', 'Galeria\GaleriaController@getGaleriaPaginacion');
+    Route::get('/dashboard/get-dashboard', 'Dashboard\DashboardController@getDashboard');
+
     Route::resources([
         'galeria' => 'Galeria\GaleriaController',
         'evento' => 'Evento\EventoController',

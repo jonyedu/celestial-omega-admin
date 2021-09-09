@@ -10,6 +10,7 @@ class Imagen extends Model
     protected $primaryKey = 'imagen_id';
     protected $casts = [
         'status' => 'boolean',
+        'created_at' => 'datetime:m',
     ];
     protected $fillable = [
         'imagen_id',
@@ -24,6 +25,5 @@ class Imagen extends Model
         'updated_at',
         'ip_visitor',
         'status'
-
     ];
 }
