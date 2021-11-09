@@ -27,7 +27,7 @@ class GaleriaController extends Controller
                 'flex',
                 'src',
             )
-                ->with('imagenes:imagen_id,galeria_id,src,status')
+                //->with('imagenes:imagen_id,galeria_id,src,status')
                 ->where('status', true)
                 ->get();
             return response()->json(['galerias' => $galerias, 'count' => $galerias->count()]);

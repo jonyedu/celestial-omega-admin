@@ -27,7 +27,7 @@
           <v-toolbar-title>Mantenimiento de Galería</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <v-dialog persistent v-model="dialog" max-width="500px">
+          <v-dialog persistent v-model="dialog" max-width="1000px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
                 Nuevo Item
@@ -41,6 +41,7 @@
                 <v-card-text>
                   <v-container>
                     <v-row>
+                      <!-- Título -->
                       <v-col cols="12" sm="6" md="5">
                         <v-text-field
                           required
@@ -51,6 +52,7 @@
                           hint="Es obligatorio tener el título de la galería."
                         ></v-text-field>
                       </v-col>
+                      <!-- Sub Título -->
                       <v-col cols="12" sm="6" md="7">
                         <v-text-field
                           :counter="100"
@@ -60,7 +62,8 @@
                           hint="Es obligatorio llevar sub título."
                         ></v-text-field>
                       </v-col>
-                      <v-col cols="6" sm="6" md="8">
+                      <!-- Tamaño -->
+                      <v-col cols="6" sm="6" md="6">
                         <v-select
                           :items="[4, 5, 6, 12]"
                           label="Tamaño"
@@ -68,7 +71,8 @@
                           v-model="editedItem.flex"
                         ></v-select>
                       </v-col>
-                      <v-col cols="12" sm="12" md="12">
+                      <!-- Galería -->
+                      <v-col cols="6" sm="6" md="6">
                         <v-file-input
                           v-model="files"
                           show-size
@@ -88,6 +92,7 @@
                           </template>
                         </v-file-input>
                       </v-col>
+                      <!-- Esto es para mostrar las imagenes en la galeria -->
                       <template>
                         <v-sheet class="mx-auto" max-width="450">
                           <v-slide-group show-arrows>
@@ -102,6 +107,7 @@
                                   max-width="140"
                                   :src="imagen.src"
                                 >
+                                  <!-- key -->
                                   <v-icon
                                     color="blue"
                                     active-class="purple white--text"
@@ -113,6 +119,7 @@
                                   >
                                     mdi-key
                                   </v-icon>
+                                  <!-- delete -->
                                   <v-icon
                                     color="red"
                                     class="ml-16 mt-9"
@@ -161,6 +168,7 @@
           </v-dialog>
         </v-toolbar>
       </template>
+      <!-- Botones de Editar e Eliminar -->
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
@@ -282,7 +290,6 @@ export default {
     deleteImagenes(index) {
       this.editedItem.imagenes[index].delete = true;
       this.editedItem.imagenes[index].status = false;
-      console.log(this.editedItem.imagenes);
     },
     clearImagen() {
       //this.editedItem.imagenes = [];
@@ -333,11 +340,25 @@ export default {
           console.error(error);
         });
     },
+    getImagenPorPoceso() {
+      let that = this;
+      let url = "/imagen/get-imagen-por-proceso/1/" + this.editedItem.galeria_id;
+      axios
+        .get(url)
+        .then(function (response) {
+          that.editedItem.imagenes = response.data.imagenes;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
 
-    editItem(item) {
+    editItem(item) {      
+      item.imagenes = [];
       this.editedIndex = this.galerias.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      this.getImagenPorPoceso();
     },
 
     deleteItem(item) {

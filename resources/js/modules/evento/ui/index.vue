@@ -27,7 +27,7 @@
           <v-toolbar-title>Mantenimiento de Evento</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <v-dialog persistent v-model="dialog" max-width="500px">
+          <v-dialog persistent v-model="dialog" max-width="1000px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
                 Nuevo Item
@@ -118,7 +118,7 @@
                           hint="Es obligatorio llevar sub título."
                         ></v-text-field>
                       </v-col>
-                      <v-col cols="6" sm="6" md="8">
+                      <v-col cols="6" sm="6" md="6">
                         <v-select
                           :items="[4, 5, 6, 12]"
                           label="Tamaño"
@@ -126,7 +126,7 @@
                           v-model="editedItem.flex"
                         ></v-select>
                       </v-col>
-                      <v-col cols="12" sm="12" md="12">
+                      <v-col cols="6" sm="6" md="6">
                         <v-file-input
                           v-model="files"
                           show-size
@@ -364,11 +364,24 @@ export default {
           console.error(error);
         });
     },
-
+    getImagenPorPoceso() {
+      let that = this;
+      let url = "/imagen/get-imagen-por-proceso/2/" + this.editedItem.evento_id;
+      axios
+        .get(url)
+        .then(function (response) {
+          that.editedItem.imagenes = response.data.imagenes;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     editItem(item) {
+      item.imagenes = [];
       this.editedIndex = this.eventos.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      this.getImagenPorPoceso();
     },
 
     deleteItem(item) {

@@ -381,10 +381,21 @@ __webpack_require__.r(__webpack_exports__);
         console.error(error);
       });
     },
+    getImagenPorPoceso: function getImagenPorPoceso() {
+      var that = this;
+      var url = "/imagen/get-imagen-por-proceso/2/" + this.editedItem.evento_id;
+      axios.get(url).then(function (response) {
+        that.editedItem.imagenes = response.data.imagenes;
+      })["catch"](function (error) {
+        console.error(error);
+      });
+    },
     editItem: function editItem(item) {
+      item.imagenes = [];
       this.editedIndex = this.eventos.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      this.getImagenPorPoceso();
     },
     deleteItem: function deleteItem(item) {
       this.editedIndex = this.eventos.indexOf(item);
@@ -554,7 +565,7 @@ var render = function() {
                     _c(
                       "v-dialog",
                       {
-                        attrs: { persistent: "", "max-width": "500px" },
+                        attrs: { persistent: "", "max-width": "1000px" },
                         scopedSlots: _vm._u([
                           {
                             key: "activator",
@@ -967,7 +978,7 @@ var render = function() {
                                                 attrs: {
                                                   cols: "6",
                                                   sm: "6",
-                                                  md: "8"
+                                                  md: "6"
                                                 }
                                               },
                                               [
@@ -998,9 +1009,9 @@ var render = function() {
                                               "v-col",
                                               {
                                                 attrs: {
-                                                  cols: "12",
-                                                  sm: "12",
-                                                  md: "12"
+                                                  cols: "6",
+                                                  sm: "6",
+                                                  md: "6"
                                                 }
                                               },
                                               [

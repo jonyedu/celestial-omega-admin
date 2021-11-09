@@ -27,6 +27,21 @@ const state = {
       icon: 'mdi-calendar-clock',
       to: '/modulo/programa/mostrar_programa',
     },
+    {
+      title: 'Live',
+      icon: 'mdi-camcorder',
+      to: '/modulo/live/mostrar_live',
+    },
+    {
+      title: 'Genero Musical',
+      icon: 'mdi-music-box',
+      to: '/modulo/genero_musical/mostrar_genero_musical',
+    },
+    {
+      title: 'Musica',
+      icon: 'mdi-music-note',
+      to: '/modulo/musica/mostrar_musica',
+    },
   ],
 }
 

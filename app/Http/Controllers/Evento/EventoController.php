@@ -28,7 +28,7 @@ class EventoController extends Controller
                 'flex',
                 'src',
             )
-                ->with('imagenes:imagen_id,evento_id,src,status')
+                //->with('imagenes:imagen_id,evento_id,src,status')
                 ->where('status', true)
                 ->get();
             return response()->json(['eventos' => $eventos, 'count' => $eventos->count()]);

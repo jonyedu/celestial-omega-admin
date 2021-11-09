@@ -29,7 +29,7 @@ class ProgramaController extends Controller
                 'flex',
                 'src',
             )
-                ->with('imagenes:imagen_id,programa_id,src,status')
+                //->with('imagenes:imagen_id,programa_id,src,status')
                 ->where('status', true)
                 ->get();
             return response()->json(['programas' => $programas, 'count' => $programas->count()]);
