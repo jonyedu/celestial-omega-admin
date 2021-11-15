@@ -22,7 +22,8 @@ class RedSocialController extends Controller
                 'red_social_id',
                 'descripcion',
                 'icono',
-                'color'
+                'color',
+                'url',
             )
                 ->where('status', true)
                 ->get();

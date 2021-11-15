@@ -170,8 +170,8 @@
       </template>
       <!-- Botones de Editar e Eliminar -->
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon small class="mr-2" @click="editItem(item)" color="blue"> mdi-pencil </v-icon>
+        <v-icon small @click="deleteItem(item)" color="red"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="getGaleria"> Reset </v-btn>

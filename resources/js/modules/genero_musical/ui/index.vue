@@ -93,8 +93,8 @@
         </v-icon>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon small class="mr-2" @click="editItem(item)" color="blue"> mdi-pencil </v-icon>
+        <v-icon small @click="deleteItem(item)" color="red"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="getGeneroMusical"> Reset </v-btn>
@@ -127,7 +127,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "Descripcion", value: "descripcion" },
+      { text: "Descripcion", value: "genero_musical" },
       { text: "Abreviatura", value: "abreviatura" },
       { text: "Opciones", value: "actions", sortable: false },
     ],

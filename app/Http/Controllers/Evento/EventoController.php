@@ -6,11 +6,39 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Evento\Evento;
 use App\Models\Imagen\Imagen;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getEventForDateAndTime()
+    {
+        try {
+            $eventos = Evento::select(
+                'evento_id',
+                'fecha',
+                'hora',
+                'titulo',
+                'sub_titulo',
+                'flex',
+                'src',
+            )
+                ->whereDate('fecha', '>=', Carbon::now()->format('Y-m-d'))
+                //->whereDate('hora', '>=', Carbon::now()->format('h:m:s'))
+                ->where('status', true)
+                ->get();
+            return response()->json(['count' => $eventos->count(), 'eventos' => $eventos]);
+        } catch (Exception $e) {
+            return response()->json(['msj' => 'EventoController=>index(): ' . $e->getMessage()], 500);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -23,6 +23,12 @@ Route::get('/get-config-empresa', function (Request $request) {
 }); */
 
 Route::get('galeria', 'Galeria\GaleriaController@index');
-Route::get('evento', 'Evento\EventoController@index');
-Route::get('programa', 'Programa\ProgramaController@index');
+Route::get('evento', 'Evento\EventoController@getEventForDateAndTime');
+Route::get('programa', 'Programa\ProgramaController@getProgramForDateAndTime');
+Route::get('get-imagen-por-proceso/{tipo_proceso}/{id}', 'Imagen\ImagenController@getImagenPorPoceso');
+Route::get('live', 'Live\LiveController@getLiveApi');
+Route::get('red_social', 'RedSocial\RedSocialController@index');
+Route::get('genero_musical', 'GeneroMusical\GeneroMusicalController@index');
+Route::get('musica', 'Musica\MusicaController@index');
+Route::get('get_music_for_genre/{genero_musical_id}', 'Musica\MusicaController@getMusicForGenre');
 

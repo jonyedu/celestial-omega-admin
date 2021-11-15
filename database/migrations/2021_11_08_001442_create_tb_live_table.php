@@ -20,7 +20,7 @@ class CreateTbLiveTable extends Migration
             $table->time('hora');
             $table->string('nombre')->nullable();
             $table->string('descripcion')->nullable();
-            $table->string('url');
+            $table->text('url');
             /* Datos para auditoria */
             $table->string('usu_created');
             $table->string('usu_update');

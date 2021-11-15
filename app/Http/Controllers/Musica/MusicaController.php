@@ -11,6 +11,22 @@ use Illuminate\Support\Facades\Auth;
 class MusicaController extends Controller
 {
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $genero_musical_id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMusicForGenre($genero_musical_id)
+    {
+        try {
+            $musica = Musica::where('status', true)->where('genero_musical_id', $genero_musical_id)->get();
+            return response()->json(['musica' => $musica]);
+        } catch (Exception $e) {
+            return response()->json(['msj' => 'MusicaController=>show(): ' . $e->getMessage()], 500);
+        }
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

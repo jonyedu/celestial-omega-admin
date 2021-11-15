@@ -32,11 +32,37 @@ class LiveController extends Controller
                     'hora',
                     'nombre',
                     'liv.descripcion',
-                    'url'
+                    'liv.url'
                 )
                 ->where('liv.status', true)
                 ->get();
             return response()->json(['lives' => $lives, 'count' => $lives->count()]);
+        } catch (Exception $e) {
+            return response()->json(['msj' => 'LiveController=>index(): ' . $e->getMessage()], 500);
+        }
+    }
+
+    //Para la api
+    public function getLiveApi()
+    {
+        try {
+            $lives = Live::from('tb_live as liv')
+                ->join('tb_red_social as red_soc', 'liv.red_social_id', '=', 'red_soc.red_social_id')
+                ->select(
+                    'red_soc.descripcion as red_social',
+                    'icono',
+                    'live_id',
+                    'liv.red_social_id',
+                    'fecha',
+                    'color',
+                    'hora',
+                    'nombre',
+                    'liv.descripcion',
+                    'liv.url'
+                )
+                ->where('liv.status', true)
+                ->first();
+            return response()->json(['lives' => $lives]);
         } catch (Exception $e) {
             return response()->json(['msj' => 'LiveController=>index(): ' . $e->getMessage()], 500);
         }
@@ -143,8 +169,14 @@ class LiveController extends Controller
      */
     public function destroy($live_id)
     {
+        $user = Auth::user();
         try {
-            Live::where('live_id', $live_id)->where('status', true)->delete();
+            Live::where('live_id', $live_id)->where('status', true)->update([
+                'usu_created' => $user->id,
+                'usu_update' => $user->id,
+                'ip_visitor' => $_SERVER["REMOTE_ADDR"],
+                'status' => false,
+            ]);
             return response()->json(['msj' => 'Exito al eliminar live.']);
         } catch (Exception $e) {
             return response()->json(['msj' => 'LiveController=>store(): ' . $e->getMessage()], 500);

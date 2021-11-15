@@ -20,7 +20,7 @@ class GeneroMusicalController extends Controller
         try {
             $generos_musicales = GeneroMusical::select(
                 'genero_musical_id',
-                'descripcion',
+                'descripcion as genero_musical',
                 'abreviatura',
             )
                 ->where('status', true)

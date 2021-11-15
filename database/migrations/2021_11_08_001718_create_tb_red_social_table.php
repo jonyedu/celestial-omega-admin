@@ -18,6 +18,7 @@ class CreateTbRedSocialTable extends Migration
             $table->string('descripcion');
             $table->string('icono')->nullable();
             $table->string('color')->nullable();
+            $table->text('url')->nullable();
             /* Datos para auditoria */
             $table->string('usu_created');
             $table->string('usu_update');

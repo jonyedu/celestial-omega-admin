@@ -13,20 +13,20 @@
           class="ma-2 white--text"
           fab
           x-small
-          :href="link.href"
+          :href="link.url"
           target="_blank"
-          ><v-icon>{{ link.icon }} </v-icon>
+          ><v-icon>{{ link.icono }} </v-icon>
         </v-btn>
         <br />
         <a
-          :href="link.href"
+          :href="link.url"
           class="
             text-decoration-none text-uppercase text-caption
             font-weight-regular
           "
           rel="noopener"
           target="_blank"
-          v-text="link.text"
+          v-text="link.descripcion"
         />
       </v-col>
 
@@ -46,36 +46,54 @@
 
 <script>
 export default {
+  mounted() {
+    this.getRedSocial();
+  },
   name: "Links",
 
   data: () => ({
-    links: [
-      {
-        href: "https://www.facebook.com/celestial.omega.944",
-        icon: "mdi-facebook",
-        text: "Facebook",
-        color: "light-blue darken-4",
-      },
-      {
-        href: "https://www.youtube.com/channel/UCOjh_XOXLigAsMc3sMOKZlQ",
-        icon: "mdi-youtube",
-        text: "Youtube",
-        color: "red",
-      },
-      {
-        href: "https://www.instagram.com/celestialomegatv/",
-        icon: "mdi-instagram",
-        text: "Instagram",
-        color: "accent",
-      },
-      {
-        href: "https://api.whatsapp.com/send?phone=593997760413&text=Hola%20hermanos%20necesito%20oracion%20",
-        icon: "mdi-whatsapp",
-        text: "Whatsapp",
-        color: "teal",
-      },
-    ],
+    links: [],
+    // links: [
+    //   {
+    //     href: "https://www.facebook.com/celestial.omega.944",
+    //     icon: "mdi-facebook",
+    //     text: "Facebook",
+    //     color: "light-blue darken-4",
+    //   },
+    //   {
+    //     href: "https://www.youtube.com/channel/UCOjh_XOXLigAsMc3sMOKZlQ",
+    //     icon: "mdi-youtube",
+    //     text: "Youtube",
+    //     color: "red",
+    //   },
+    //   {
+    //     href: "https://www.instagram.com/celestialomegatv/",
+    //     icon: "mdi-instagram",
+    //     text: "Instagram",
+    //     color: "accent",
+    //   },
+    //   {
+    //     href: "https://api.whatsapp.com/send?phone=593997760413&text=Hola%20hermanos%20necesito%20oracion%20",
+    //     icon: "mdi-whatsapp",
+    //     text: "Whatsapp",
+    //     color: "teal",
+    //   },
+    // ],
   }),
+  methods: {
+    getRedSocial() {
+      let that = this;
+      let url = "/red_social";
+      axios
+        .get(url)
+        .then(function (response) {
+          that.links = response.data.redes_sociales;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
 };
 </script>
 

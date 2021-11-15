@@ -9,7 +9,7 @@ const home = [
         children: [
             {
                 path: prefijo,
-                 component: () => import("@/modules/dashboard/ui/index"),
+                component: () => import("@/modules/dashboard/ui/index"),
                 name: "index_dashboard"
             },
             {

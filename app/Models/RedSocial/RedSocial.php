@@ -16,6 +16,7 @@ class RedSocial extends Model
         'descripcion', 
         'icono', 
         'color', 
+        'url', 
         'usu_update',
         'created_at',
         'updated_at',

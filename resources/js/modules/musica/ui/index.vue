@@ -42,7 +42,7 @@
                       <v-col cols="4" sm="6" md="4">
                         <v-autocomplete
                           v-model="editedItem.genero_musical_id"
-                          :items="musicas"
+                          :items="generos_musicales"
                           small-chips
                           color="blue-grey lighten-2"
                           label="Categoría Musical"
@@ -115,8 +115,8 @@
         </v-icon>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon small class="mr-2" @click="editItem(item)" color="blue"> mdi-pencil </v-icon>
+        <v-icon small @click="deleteItem(item)" color="red"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="getMusica"> Reset </v-btn>
@@ -159,6 +159,7 @@ export default {
     ],
 
     musicas: [],
+    generos_musicales: [],
     editedIndex: -1,
     editedItem: {
       musica_id: 0,
@@ -193,6 +194,7 @@ export default {
 
   created() {
     this.getMusica();
+    this.getGeneroMusical();
   },
 
   methods: {
@@ -207,6 +209,22 @@ export default {
         .get(url)
         .then(function (response) {
           that.musicas = response.data.musicas;
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(function () {
+          that.isUpdating = false;
+        });
+    },
+    getGeneroMusical() {
+      this.isUpdating = true;
+      let that = this;
+      let url = "/genero_musical";
+      axios
+        .get(url)
+        .then(function (response) {
+          that.generos_musicales = response.data.generos_musicales;
         })
         .catch((error) => {
           console.error(error);
