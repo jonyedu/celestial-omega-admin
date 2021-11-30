@@ -467,8 +467,6 @@ export default {
     },
 
     closeDelete() {
-      this.$refs.form.reset();
-      this.$refs.form.resetValidation();
       this.dialogDelete = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);

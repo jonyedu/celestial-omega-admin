@@ -42,6 +42,12 @@ const state = {
       icon: 'mdi-music-note',
       to: '/modulo/musica/mostrar_musica',
     },
+    {
+      title: 'Carrusel',
+      icon: 'mdi-folder-multiple-image',
+      to: '/modulo/carrusel/mostrar_carrusel',
+      color: 'blue-grey',
+    },
   ],
 }
 

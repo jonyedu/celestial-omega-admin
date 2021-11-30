@@ -49,5 +49,6 @@ Route::group(['middleware' => ['auth:web'], 'verified'], function () {
         'red_social' => 'RedSocial\RedSocialController',
         'genero_musical' => 'GeneroMusical\GeneroMusicalController',
         'musica' => 'Musica\MusicaController',
+        'carrusel' => 'Carrusel\CarruselController',
     ]);
 });

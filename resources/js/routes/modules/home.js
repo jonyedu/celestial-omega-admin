@@ -42,6 +42,11 @@ const home = [
                 component: () => import("@/modules/musica/ui/index"),
                 name: "index_musica"
             },
+            {
+                path: 'modulo/carrusel/mostrar_carrusel',
+                component: () => import("@/modules/carrusel/ui/index"),
+                name: "index_carrusel"
+            },
         ],
     },
 

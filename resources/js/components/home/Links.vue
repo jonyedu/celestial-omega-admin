@@ -20,6 +20,7 @@
         <br />
         <a
           :href="link.url"
+          :color="link.color"
           class="
             text-decoration-none text-uppercase text-caption
             font-weight-regular
