@@ -9,6 +9,8 @@ import vuetify from './plugins/vuetify';
 import { sync } from 'vuex-router-sync'
 import './plugins';
 import './components';
+import { global } from "./mixins/global.js";
+Vue.prototype.$global = global;
 
 
 

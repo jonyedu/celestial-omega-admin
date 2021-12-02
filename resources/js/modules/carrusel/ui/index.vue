@@ -1,18 +1,14 @@
 <template>
   <div>
-    <template>
-      <div>
-        <v-alert
-          elevation="2"
-          dismissible
-          transition="scale-transition"
-          v-model="show"
-          type="success"
-        >
-          {{ text_error }}
-        </v-alert>
-      </div>
-    </template>
+    <v-snackbar timeout="2000" bottom right :color="color" v-model="show">
+      <v-icon large color="green darken-2"> mdi-check </v-icon>
+      <span>{{ text_error }}</span>
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="show = false">
+          X
+        </v-btn>
+      </template>
+    </v-snackbar>
     <v-data-table
       :headers="headers"
       :items="carruseles"
@@ -46,7 +42,7 @@
                         <v-file-input
                           hint="Es obligatorio llevar una imagen."
                           :rules="imagenRules"
-                          v-model="files"                          
+                          v-model="files"
                           show-size
                           @change="onFileSelected"
                           @click:clear="clearImagen"
@@ -64,28 +60,25 @@
                         </v-file-input>
                       </v-col>
                       <!-- Para ver la Imagen -->
-                      <template v-if="editedItem.src != ''" >
+                      <template v-if="editedItem.src != ''">
                         <v-sheet class="mx-auto" max-width="450">
                           <v-slide-group show-arrows>
-                            <v-slide-item
-                              v-slot="{ active, toggle }"
-                            >
-                                <v-img
-                                  max-height="50"
-                                  max-width="140"
-                                  :src="editedItem.src"
+                            <v-slide-item v-slot="{ active, toggle }">
+                              <v-img
+                                max-height="50"
+                                max-width="140"
+                                :src="editedItem.src"
+                              >
+                                <v-icon
+                                  color="red"
+                                  class="ml-16 mt-9"
+                                  :input-value="active"
+                                  small
+                                  @click="deleteImagenes(index)"
                                 >
-                                  <v-icon
-                                    color="red"
-                                    class="ml-16 mt-9"
-                                    :input-value="active"
-                                    small
-                                    @click="deleteImagenes(index)"
-                                  >
-                                    mdi-delete
-                                  </v-icon>
-                                </v-img>
-                              
+                                  mdi-delete
+                                </v-icon>
+                              </v-img>
                             </v-slide-item>
                           </v-slide-group>
                         </v-sheet>
@@ -125,8 +118,12 @@
       </template>
       <!-- Botones de Editar e Eliminar -->
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)" color="blue"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)" color="red"> mdi-delete </v-icon>
+        <v-icon small class="mr-2" @click="editItem(item)" color="blue">
+          mdi-pencil
+        </v-icon>
+        <v-icon small @click="deleteItem(item)" color="red">
+          mdi-delete
+        </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="getCarrusel"> Reset </v-btn>
@@ -138,9 +135,7 @@
 export default {
   name: "MantenimientoCarrusel",
   data: () => ({
-    imagenRules: [
-      (v) => !!v || "Imagen es requerido",
-    ],
+    imagenRules: [(v) => !!v || "Imagen es requerido"],
     valid: true,
     text_error: "",
     show: false,
@@ -236,8 +231,8 @@ export default {
         });
     },
 
-    editItem(item) {   
-      this.files =  this.$global.dataURLtoFile(item.src, item.titulo);   
+    editItem(item) {
+      this.files = this.$global.dataURLtoFile(item.src, item.titulo);
       item.imagenes = [];
       this.editedIndex = this.carruseles.indexOf(item);
       this.editedItem = Object.assign({}, item);

@@ -1,18 +1,14 @@
 <template>
   <div>
-    <template>
-      <div>
-        <v-alert
-          elevation="2"
-          dismissible
-          transition="scale-transition"
-          v-model="show"
-          type="success"
-        >
-          {{ text_error }}
-        </v-alert>
-      </div>
-    </template>
+    <v-snackbar timeout="2000" bottom right :color="color" v-model="show">
+      <v-icon large color="green darken-2"> mdi-check </v-icon>
+      <span>{{ text_error }}</span>
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="show = false">
+          X
+        </v-btn>
+      </template>
+    </v-snackbar>
     <v-data-table
       :headers="headers"
       :items="eventos"
@@ -219,8 +215,12 @@
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)" color="blue"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)" color="red"> mdi-delete </v-icon>
+        <v-icon small class="mr-2" @click="editItem(item)" color="blue">
+          mdi-pencil
+        </v-icon>
+        <v-icon small @click="deleteItem(item)" color="red">
+          mdi-delete
+        </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="getEvento"> Reset </v-btn>
@@ -242,14 +242,11 @@ export default {
     subTituloRules: [
       (v) => !!v || "Sub Título es requerido",
       (v) =>
-        (v && v.length <= 100) || "El Sub título debe tener menos de 30 caracteres",
+        (v && v.length <= 100) ||
+        "El Sub título debe tener menos de 30 caracteres",
     ],
-    fechaRules: [
-      (v) => !!v || "Fecha es requerido",
-    ],
-    horaRules: [
-      (v) => !!v || "Hora es requerido",
-    ],
+    fechaRules: [(v) => !!v || "Fecha es requerido"],
+    horaRules: [(v) => !!v || "Hora es requerido"],
     menu2: false,
     menu: false,
     valid: true,
@@ -263,9 +260,9 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "Fecha", value: "fecha", },
-      { text: "Hora", value: "hora", },
-      { text: "Título", value: "titulo", },
+      { text: "Fecha", value: "fecha" },
+      { text: "Hora", value: "hora" },
+      { text: "Título", value: "titulo" },
       { text: "Sub Título", value: "sub_titulo" },
       { text: "Flex", value: "flex" },
       { text: "Imagen", value: "src" },
@@ -396,8 +393,6 @@ export default {
       axios
         .delete(url, this.editedItem)
         .then(function () {
-          that.$refs.form.reset();
-          that.$refs.form.resetValidation();
           that.text_error = "Se ha eliminado correctamente";
           that.show = true;
           that.color = "green";
